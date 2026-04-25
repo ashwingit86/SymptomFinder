@@ -1,13 +1,16 @@
 from flask import Flask, request, jsonify
+import os
 
 app = Flask(__name__)
 
+# Mock symptom database (simulating Tavily search)
 symptom_db = {
     "fever": ["Flu", "COVID-19", "Infection"],
     "headache": ["Migraine", "Stress", "Dehydration"],
     "cough": ["Cold", "Bronchitis", "Asthma"],
 }
 
+# Function to find conditions
 def find_conditions(symptoms):
     conditions = []
     for s in symptoms:
@@ -15,15 +18,18 @@ def find_conditions(symptoms):
             conditions.extend(symptom_db[s.lower()])
     return list(set(conditions))
 
+# Function to generate advice
 def generate_advice(conditions):
     if not conditions:
         return "No major condition detected. Monitor symptoms."
     return "If symptoms persist for more than 3 days, consult a doctor."
 
+# Home route
 @app.route("/")
 def home():
     return "Symptom Information Finder Running"
 
+# API route (POST)
 @app.route("/analyze", methods=["POST"])
 def analyze():
     data = request.json
@@ -39,5 +45,16 @@ def analyze():
         "disclaimer": "This is general information only, not medical advice."
     })
 
+# NEW: Test route (VERY IMPORTANT for demo)
+@app.route("/test")
+def test():
+    return jsonify({
+        "symptoms": ["fever", "cough"],
+        "possible_conditions": ["Flu", "Cold", "COVID-19"],
+        "advice": "Consult a doctor if symptoms persist",
+        "disclaimer": "This is not medical advice"
+    })
+
+# Run app (Render / Railway compatible)
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
