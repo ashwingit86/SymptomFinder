@@ -1,0 +1,3 @@
+Users get confused while searching symptoms online.
+
+This system takes symptoms and gives structured results with advice.

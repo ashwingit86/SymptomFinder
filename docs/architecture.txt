@@ -1,0 +1,1 @@
+User → API → Symptom Analyzer → Output

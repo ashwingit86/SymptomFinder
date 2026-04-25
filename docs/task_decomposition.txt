@@ -1,0 +1,5 @@
+1. Take symptoms
+2. Match conditions
+3. Generate output
+4. Give advice
+5. Add disclaimer
